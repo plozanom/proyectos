@@ -42,6 +42,25 @@ def main_menu():
             rectangulo = area_rectangulo(base, altura)
             print(f"El area del rectangulo con base {base} y altura {altura} es {rectangulo}")
             input("\nPresiona Enter para continuar...")
+        
+        elif opcion == "5":
+            clear_screen()
+
+            base1 = float(input("Ingrese la base mayor del trapecio: "))
+            base2 = float(input("Ingrese la base menor del trapecio: "))
+            altura = float(input("Ingrese la altura del trapecio: "))
+            trapecio = area_trapecio(base1, base2, altura)
+            print(f"El area del trapecio con base mayor {base1}, base menor {base2} y altura {altura} es {trapecio}")
+            input("\nPresiona Enter para continuar...")
+
+        elif opcion == "6":
+            clear_screen()
+
+            mayor = float(input("Ingrese la diagonal mayor del rombo: "))
+            menor = float(input("Ingrese la diagonal menor del rombo: "))
+            rombo = area_rombo(mayor, menor)
+            print(f"El area del rombo con diagonal mayor {mayor} y diagonal menor {menor} es {rombo}")
+            input("\nPresiona Enter para continuar...")
 
         elif opcion == "0":
             clear_screen()
