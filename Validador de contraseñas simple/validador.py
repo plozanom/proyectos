@@ -2,8 +2,7 @@
 # Debe validar si hay por lo menos una mayuscula
 # Debe validar si hay por lo menos una minuscula
 # Debe validar si hay caracteres especiales
-
-import string
+# Debe validar si hay por lo menos un digito
 
 def validador(pswd):
     
@@ -27,4 +26,5 @@ def validador(pswd):
     for j in lista_bool:
         if j == False:
             return "La contraseña no es valida"
+
     return "La contraseña es valida"
