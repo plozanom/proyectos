@@ -1,15 +1,15 @@
 # Cifrado Cesar sencillo
 
 def cesar(mensaje, desplazar):
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    encrypted_text = ''
+    alfabeto = 'abcdefghijklmnopqrstuvwxyz'
+    texto_encriptado = ''
 
     for char in mensaje.lower():
         if char == ' ':
-            encrypted_text += char
+            texto_encriptado += char
         else:
-            index = alphabet.find(char)
-            new_index = (index + desplazar) % len(alphabet)
-            encrypted_text += alphabet[new_index]
-    print('plain text:', mensaje)
-    print('encrypted text:', encrypted_text)
+            indice = alfabeto.find(char)
+            nuevo_indice = (indice + desplazar) % len(alfabeto)
+            texto_encriptado += alfabeto[nuevo_indice]
+    print(f'Texto plano: {mensaje}')
+    print(f'Text encriptado: {texto_encriptado}')
