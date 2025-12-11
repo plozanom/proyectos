@@ -1,10 +1,6 @@
-def verificador(num):
+def es_par(num):
 
     if num % 2 == 0:
-        return "par"
+        return True
     
-    return "impar"
-
-numero = int(input("Ingrese un numero entero para verificar si es par o impar: "))
-
-print(f"El numero {numero} es {verificador(numero)}")
+    return False

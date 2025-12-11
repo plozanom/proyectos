@@ -5,6 +5,6 @@ def es_palindromo(numero):
     numero_invertido = int(str(numero)[::-1])
 
     if numero_invertido == numero:
-        return f"{numero} es un palindromo"
+        return True
     
-    return f"{numero} no es un palindromo"
+    return False
