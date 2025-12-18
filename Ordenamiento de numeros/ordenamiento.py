@@ -1,5 +1,3 @@
-cantidad = int(input("Ingrese la cantidad de numeros que quiere ordenar: "))
-
 def obtencion_numeros(cantidad):
 
     lista_numeros = []
@@ -10,14 +8,16 @@ def obtencion_numeros(cantidad):
 
     return lista_numeros
 
-def mayor_a_menor(lista):
+def mayor_a_menor(cantidad):
 
+    lista = obtencion_numeros(cantidad)
     lista = sorted(lista, reverse=True)
 
     return lista
 
-def menor_a_mayor(lista):
+def menor_a_mayor(cantidad):
 
+    lista = obtencion_numeros(cantidad)
     lista = sorted(lista)
 
     return lista
@@ -26,9 +26,3 @@ def ordenamiento(lista):
 
     for i in lista:
         print(i)
-
-paso1 = obtencion_numeros(cantidad)
-paso2 = mayor_a_menor(paso1)
-
-print("\nDebajo se muestran los numeros ordenados")
-ordenamiento(paso2)
