@@ -1,3 +1,7 @@
+# La primera función convierte un numero entero en un numero hexadecimal
+# La segunda función cumple el proceso contrario
+
+
 def dec2hex(dec):
     hexa = ""
     hexa_dic = {
@@ -24,10 +28,9 @@ def dec2hex(dec):
         hexa_list.append(dec % 16)
         dec //= 16
 
-    for i in range(len(hexa_list)):
-        for j in hexa_dic:
-            if hexa_list[i] == j:
-                hexa = hexa_dic[j] + hexa
+    for i in hexa_list:
+        if i in hexa_dic:
+            hexa = hexa_dic[i] + hexa
 
     return hexa
 
