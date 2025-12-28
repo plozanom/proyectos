@@ -1,3 +1,7 @@
+# La primera función transforma numeros enteros en binarios
+# La segunda función transforma un binario(str) a un numero entero
+
+
 def dec2bin(num):
     binary = ""
     dec = num
