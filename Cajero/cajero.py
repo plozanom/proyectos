@@ -1,38 +1,52 @@
-import os
+# Cajero automatico basico, se puede revisar saldo, hacer retiros y hacer depositos.
+# Funciones:
+#   - crear_saldo(): Crea un archivo csv (si no existe) con las cabeceras 'Saldo', 'Tipo de Movimiento', 'Valor Cambio' y 'Marca de Tiempo' con un saldo inicial de $100000
+#   - ultimo_saldo(): Busca y retorna el ultimo saldo registrado en el csv
+#   - retiro(): Recibe un valor a retirar y esta función verifica si el saldo es suficiente, si es así, realiza el retiro y lo registra, de lo contrario, avisa del saldo insuficiente
+#   - deposito(): Recibe un valor a depositar y retorna el deposito exitoso
+#   - saldo(): Muestra en pantalla el ultimo saldo
 
-usuario = {'saldo': 100000}
+import csv
+from os import path
+from datetime import datetime
 
-while True:
-    os.system('clear')
-    print('\tMENU CAJERO\n')
-    print('Selecciona una opcion del menu\n')
-    print('\t1 - Ver saldo')
-    print('\t2 - Sacar dinero')
-    print('\t3 - Depositar saldo')
-    print('\t0 - Salir')
-    eleccion = int(input('Digite su seleccion: '))
+def crear_saldo():
 
-    if eleccion == 1:
-        print('Su saldo es de',usuario['saldo'])
-        input('Pulsa cualquier tecla para continuar...')
-    elif eleccion == 2:
-        monto = int(input('Digite el monto a sacar: '))
-        if monto <= usuario['saldo']:
-            usuario['saldo'] = usuario['saldo'] - monto
-            print('\nTransaccion exitosa!!\nUsted ha sacado '+str(monto)+', su saldo actual es de',usuario['saldo'])
-            input('Pulsa cualquier tecla para continuar...')
-        else:
-            input('\nSu saldo es insuficiente\nPulsa cualquier tecla para continuar...')
-    elif eleccion == 3:
-        monto = int(input('Digite el monto a depositar: '))
-        if monto >= 0:
-            usuario['saldo'] = usuario['saldo'] + monto
-            print('\nTransaccion exitosa!!\nUsted ha depositado '+str(monto)+', su saldo actual es de',usuario['saldo'])
-            input('Pulsa cualquier tecla para continuar...')
-        else:
-            input('\nColoque un valor admisible\nPulsa cualquier tecla para continuar...')
-    elif eleccion == 0:
-        print('\nGracias por usar nuestros servicios!!!.')
-        break
+    archivo = "Saldo cajero.csv"
+
+    if not path.exists(archivo):
+        with open(archivo, "w") as bd:
+            csv.DictWriter(bd, ["Saldo", "Tipo de Movimiento", "Valor Cambio", "Marca de Tiempo"]).writeheader()
+            writer = csv.writer(bd)
+            writer.writerow([100000, "-", 0, datetime.now().strftime("%Y-%m-%d-%H:%M:%S")])
+
+def ultimo_saldo():
+    with open("Saldo cajero.csv", "r") as bd:
+        reader = list(csv.reader(bd))        
+        return reader[-1][0]
+
+def retiro(valor_retiro):
+
+    saldo = ultimo_saldo()
+
+    if valor_retiro > float(saldo):
+        return "No hay saldo suficiente"
     else:
-        input('\nSu seleccion no coressponde con ninguna opcion\nPulse cualquier tecla para continuar...')
+        with open("Saldo cajero.csv", "a") as bd:
+            writer = csv.writer(bd)
+            writer.writerow([float(saldo) - valor_retiro, "Retiro", f"-{valor_retiro}", datetime.now().strftime("%Y-%m-%d-%H:%M:%S")])
+            return "Retiro exitoso"
+
+def deposito(valor_deposito):
+    
+    saldo = ultimo_saldo()
+
+    with open("Saldo cajero.csv", "a") as bd:
+        writer = csv.writer(bd)
+        writer.writerow([float(saldo) + valor_deposito, "Deposito", f"+{valor_deposito}", datetime.now().strftime("%Y-%m-%d-%H:%M:%S")])
+        return "Deposito exitoso"
+
+def saldo():
+    return f"Su saldo es de ${ultimo_saldo()}"
+
+print(saldo())
