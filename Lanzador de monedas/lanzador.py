@@ -1,18 +1,19 @@
+# Función que lanza un numero n de monedas al azar y retorna en un diccionario el numero de caras y cruces conseguidos
+
 from random import choice
 
-opciones = ("cara", "cruz")
+def lanzador_monedas(lanzamientos):
 
-num_lanzamientos = int(input('Ingrese el numero de lanzamientos de la moneda: '))
+    opciones = ("cara", "cruz")
+    cara = 0
+    cruz = 0
 
-cara = 0
-cruz = 0
+    for lanzamiento in range(lanzamientos):
+        moneda = choice(opciones)
 
-for lanzamiento in range(num_lanzamientos):
-    moneda = choice(opciones)
+        if moneda == 'cara':
+            cara += 1
+        else:
+            cruz += 1
 
-    if moneda == 'cara':
-        cara += 1
-    else:
-        cruz += 1
-
-print(f'\nLos resultados del lanzamiento de monedas son:\nSe lanzaron {num_lanzamientos} monedas\nNumero de caras: {cara}   Porcentaje: {(cara/num_lanzamientos)*100}%\nNumero de cruces: {cruz}   Porcentaje: {(cruz/num_lanzamientos)*100}%')
+    return {"cara": cara, "cruz": cruz}
