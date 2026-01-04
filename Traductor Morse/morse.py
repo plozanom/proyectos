@@ -1,4 +1,4 @@
-def trad_morse(palabra):
+def palabra_morse(palabra):
     morse = ""
     morse_dict = {
         "a": ".-",
@@ -47,4 +47,52 @@ def trad_morse(palabra):
     return morse
 
 
-print(trad_morse("palabra"))
+def morse_palabra(morse):
+    palabra = ""
+    morse_dict = {
+        ".-": "a",
+        "-...": "b",
+        "-.-.": "c",
+        "-..": "d",
+        ".": "e",
+        "..-.": "f",
+        "--.": "g",
+        "....": "h",
+        "..": "i",
+        ".---": "j",
+        "-.-": "k",
+        ".-..": "l",
+        "--": "m",
+        "-.": "n",
+        "---": "o",
+        ".--.": "p",
+        "--.-": "q",
+        ".-.": "r",
+        "...": "s",
+        "-": "t",
+        "..-": "u",
+        "...-": "v",
+        ".--": "w",
+        "-..-": "x",
+        "-.--": "y",
+        "--..": "z",
+        ".----": "1",
+        "..---": "2",
+        "...--": "3",
+        "....-": "4",
+        ".....": "5",
+        "-....": "6",
+        "--...": "7",
+        "---..": "8",
+        "----.": "9",
+        "-----": "0",
+        "--.--": "ñ",
+    }
+
+    morse_list = morse.split(" ")
+
+    for i in morse_list:
+        if i in morse_dict:
+            palabra += morse_dict[i]
+
+    return palabra
