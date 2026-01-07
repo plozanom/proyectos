@@ -17,4 +17,11 @@ def barajador():
     return cartas
 
 
-print(barajador())
+def repartidor(num_cartas):
+    cartas = barajador()
+    repartidas = []
+
+    for _ in range(num_cartas):
+        repartidas.append(cartas.pop())
+    
+    return repartidas
