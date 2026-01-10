@@ -1,25 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
+import time
 import csv
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
-} # Hacerse pasar por un usuario común (Se mandan cabeceras para imitar a un navegador real)
-url = "http://books.toscrape.com"
-respuesta = requests.get(url, headers= headers)
+base_url = "http://books.toscrape.com/catalogue/"
+url_actual = "http://books.toscrape.com/catalogue/page-1.html"
+headers = {'User-Agent': 'Mozilla/5.0...'} # Tu disfraz
 
-if respuesta.status_code == 200:
-    # Aquí es donde ocurre la magia
-    sopa = BeautifulSoup(respuesta.text, 'html.parser')
+while url_actual:
+    print(f"Rastreando: {url_actual}")
+    res = requests.get(url_actual, headers=headers)
+    sopa = BeautifulSoup(res.text, 'html.parser')
     
-    # Buscamos la etiqueta del título principal
-    titulo = sopa.find('a').text
-    if titulo:
-        print(f"El texto encontrado es: {titulo}")
-    else:
-        print("No se encontró el titulo")
-    
-    # Suponiendo que ya tenemos nuestra 'sopa' lista
     libros = sopa.select('.product_pod')
     lista_libros = []
 
@@ -46,7 +38,15 @@ if respuesta.status_code == 200:
 
         escritor.writeheader() # Escribe los nombres en la primera fila
         escritor.writerows(lista_libros)
-        
-    print("El archivo CSV ha sido creado con exito")
-else:
-    print(f"Error al acceder: {respuesta.status_code}")
+    
+    # BUSCAMOS EL BOTÓN SIGUIENTE
+    # En este sitio, el botón está en un <li> con clase 'next'
+    boton_siguiente = sopa.select_one('li.next a')
+    
+    if boton_siguiente:
+        # Construimos la nueva URL (concatenando la base + el href del botón)
+        url_actual = base_url + boton_siguiente['href']
+        time.sleep(2) # Pausa de cortesía
+    else:
+        print("¡Hemos llegado a la última página!")
+        url_actual = None # Esto rompe el bucle while
