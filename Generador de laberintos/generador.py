@@ -1,48 +1,106 @@
+# Funciones para generar, resolver y visualizar el laberinto
+
 import random
+import time
+import os
 
-# 1. Definimos dimensiones (siempre impares para tener bordes)
-filas = 21
-columnas = 21
+def generar_laberinto(filas, columnas):
+    # Inicializamos con paredes
+    lab = [[1 for _ in range(columnas)] for _ in range(filas)]
+    pila = [(1, 1)]
+    lab[1][1] = 0
+    
+    while pila:
+        f, c = pila[-1]
+        vecinos = []
+        for nf, nc, mf, mc in [(f-2, c, f-1, c), (f+2, c, f+1, c), (f, c-2, f, c-1), (f, c+2, f, c+1)]:
+            if 0 < nf < filas-1 and 0 < nc < columnas-1 and lab[nf][nc] == 1:
+                vecinos.append((nf, nc, mf, mc))
+        
+        if vecinos:
+            nf, nc, mf, mc = random.choice(vecinos)
+            lab[mf][mc] = 0
+            lab[nf][nc] = 0
+            pila.append((nf, nc))
+        else:
+            pila.pop()
+    return lab
 
-# 2. Creamos la matriz llena de paredes (1)
-laberinto = [[1 for _ in range(columnas)] for _ in range(filas)]
+def generar_laberinto_animado(filas, columnas, vel=0.02):
+    lab = [[1 for _ in range(columnas)] for _ in range(filas)]
+    pila = [(1, 1)]
+    lab[1][1] = 0
+    
+    while pila:
+        f, c = pila[-1]
 
-# 3. Punto de inicio y preparación
-inicio = (1, 1)
-laberinto[inicio[0]][inicio[1]] = 0 # Marcamos el inicio como camino
-pila = [inicio]
+        # Se limpia la pantalla
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-while pila:
-    f, c = pila[-1] # Miramos la posición actual (sin sacarla aún)
-    vecinos = []
+        # Se dibuja de manera gradual la creación del laberinto
+        for fila in lab:
+            print("".join(["#" if celda == 1 else " " for celda in fila]))
+        
+        time.sleep(vel)
 
-    # Posibles movimientos de 2 en 2
-    posibles = [
-        (f - 2, c, f - 1, c), # Arriba (destino_f, destino_c, medio_f, medio_c)
-        (f + 2, c, f + 1, c), # Abajo
-        (f, c - 2, f, c - 1), # Izquierda
-        (f, c + 2, f, c + 1)  # Derecha
-    ]
+        vecinos = []
+        for nf, nc, mf, mc in [(f-2, c, f-1, c), (f+2, c, f+1, c), (f, c-2, f, c-1), (f, c+2, f, c+1)]:
+            if 0 < nf < filas-1 and 0 < nc < columnas-1 and lab[nf][nc] == 1:
+                vecinos.append((nf, nc, mf, mc))
+        
+        if vecinos:
+            nf, nc, mf, mc = random.choice(vecinos)
+            lab[mf][mc] = 0
+            lab[nf][nc] = 0
+            pila.append((nf, nc))
+        else:
+            pila.pop()
+    return lab
 
-    for nf, nc, mf, mc in posibles:
-        # Aquí aplicaríamos tus condiciones: ¿está dentro y es pared?
-        if 0 < nf < filas - 1 and 0 < nc < columnas - 1 and laberinto[nf][nc] == 1:
-            vecinos.append((nf, nc, mf, mc))
+def resolver_laberinto(lab, inicio=(1, 1) , fin=None):
 
-    if vecinos:
-        # Elegimos uno al azar y "picamos" el camino
-        nf, nc, mf, mc = random.choice(vecinos)
-        laberinto[mf][mc] = 0
-        laberinto[nf][nc] = 0
-        pila.append((nf, nc)) # Avanzamos a la nueva celda
-    else:
-        pila.pop() # No hay salida, retrocedemos (Backtracking)
+    # Si no se pasa el argumento para fin, se halla con la siguiente condición
+    if fin is None:
+        fin = (len(lab) - 2, len(lab[0]) - 2)
 
-def imprimir_laberinto(matriz):
-    for fila in matriz:
-        # Convertimos cada 1 en '#' y cada 0 en un espacio ' '
-        linea = "".join(["#" if celda == 1 else " " for celda in fila])
-        print(linea)
+    cola = [inicio]
+    visitados = {inicio}
+    padres = {}
+    
+    while cola:
+        # 1. Sacamos el primero
+        actual = cola.pop(0)
+        
+        # 2. Si llegamos, dejamos de buscar
+        if actual == fin:
+            break
+        
+        # 3. Explorar vecinos
+        f, c = actual
+        for df, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            vf, vc = f + df, c + dc
+            vecino = (vf, vc)
+            
+            # Verificamos límites, si es camino y si no lo visitamos
+            if 0 <= vf < len(lab) and 0 <= vc < len(lab[0]) and \
+               lab[vf][vc] == 0 and vecino not in visitados:
+                
+                visitados.add(vecino)
+                padres[vecino] = actual
+                cola.append(vecino)
+    actual = fin
+    while actual != inicio:
+        f, c = actual
+        lab[f][c] = 2
+        actual = padres[actual]
+    lab[inicio[0]][inicio[1]] = 2
 
-# Probamos imprimirlo después de generar
-imprimir_laberinto(laberinto)
+def imprimir(lab):
+    for fila in lab:
+        print("".join(["#" if c == 1 else "." if c == 2 else " " for c in fila]))
+
+# Configuración inicial
+F, C = 31, 31 
+mi_laberinto = generar_laberinto_animado(F, C)
+resolver_laberinto(mi_laberinto, (1, 1), (F-2, C-2))
+imprimir(mi_laberinto)
