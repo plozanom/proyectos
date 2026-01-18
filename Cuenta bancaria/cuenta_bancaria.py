@@ -15,4 +15,4 @@ class Cuenta_bancaria:
         return "Retiro exitoso"
 
     def balance(self):
-        pass
+        return f"Tu balance es de {self.depositado}"
