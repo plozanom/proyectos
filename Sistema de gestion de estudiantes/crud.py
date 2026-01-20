@@ -51,13 +51,25 @@ def leer_alumno(id):
     with open("Estudiantes.csv", "r") as db:
         lector = csv.reader(db, delimiter=",")
         for fila in lector:
-            if fila[0] == id:
+            if fila[0] == str(id):
                 for elemento in fila:
                     print(elemento, end=" ")
 
 
-def actualizar_alumno():
-    pass
+def actualizar_nota_alumno(id, numero_nota, valor_nota):
+    actualizacion = []
+
+    with open("Estudiantes.csv", "r") as db:
+        lector = csv.reader(db, delimiter=",")
+        actualizacion = list(lector)
+
+    for fila in actualizacion:
+        if fila[0] == str(id):
+            fila[numero_nota + 1] = str(valor_nota)
+
+    with open("Estudiantes.csv", "w") as db:
+        escritor = csv.writer(db)
+        escritor.writerows(actualizacion)
 
 
 def borrar_alumno():
@@ -70,4 +82,6 @@ def borrar_alumno():
 # crear_alumno(3, "Valentina Rodriguez", "4.7", "4.3", "4.8")
 # leer_alumnos()
 # print()
-# leer_alumno("3")
+# leer_alumno(3)
+# actualizar_nota_alumno(1, 2, 3.8)
+# leer_alumnos()
