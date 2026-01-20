@@ -88,8 +88,20 @@ def actualizar_nombre_alumno(id, nuevo_nombre):
         escritor.writerows(actualizacion)
 
 
-def borrar_alumno():
-    pass
+def borrar_alumno(id):
+    actualizacion = []
+
+    with open("Estudiantes.csv", "r") as db:
+        lector = csv.reader(db, delimiter=",")
+        actualizacion = list(lector)
+
+    for fila in actualizacion:
+        if fila[0] == str(id):
+            actualizacion.pop()
+
+    with open("Estudiantes.csv", "w") as db:
+        escritor = csv.writer(db)
+        escritor.writerows(actualizacion)
 
 
 # archivo()
@@ -107,3 +119,5 @@ def borrar_alumno():
 # print()
 # actualizar_nombre_alumno(4, "Andrés Flores")
 # leer_alumno(4)
+# borrar_alumno(4)
+# leer_alumnos()
