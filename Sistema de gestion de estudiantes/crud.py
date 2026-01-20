@@ -95,9 +95,10 @@ def borrar_alumno(id):
         lector = csv.reader(db, delimiter=",")
         actualizacion = list(lector)
 
-    for fila in actualizacion:
-        if fila[0] == str(id):
-            actualizacion.pop()
+    # for fila in actualizacion:
+    #     if fila[0] == str(id):
+    #         actualizacion.pop()
+    actualizacion.pop(id - 1)
 
     with open("Estudiantes.csv", "w") as db:
         escritor = csv.writer(db)
@@ -119,5 +120,5 @@ def borrar_alumno(id):
 # print()
 # actualizar_nombre_alumno(4, "Andrés Flores")
 # leer_alumno(4)
-# borrar_alumno(4)
+# borrar_alumno(1)
 # leer_alumnos()
