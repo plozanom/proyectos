@@ -1,3 +1,7 @@
+# Funciones para la gestión de estudiantes en una clase cualquiera
+# Se hace un CRUD básico sobre un arcivo CSV
+
+
 import csv
 from os import path
 
