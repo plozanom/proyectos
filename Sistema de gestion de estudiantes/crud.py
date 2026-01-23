@@ -6,8 +6,7 @@ import csv
 from os import path
 
 
-def archivo():
-    base_de_datos = "Estudiantes.csv"
+def archivo(base_de_datos): 
     if not path.exists(base_de_datos):
         with open(base_de_datos, "w") as db:
             csv.DictWriter(
@@ -23,8 +22,8 @@ def archivo():
             ).writeheader()
 
 
-def crear_alumno(id, nombre, nota1="", nota2="", nota3=""):
-    with open("Estudiantes.csv", "a") as db:
+def crear_alumno(base_de_datos, id, nombre, nota1="", nota2="", nota3=""):
+    with open(base_de_datos, "a") as db:
         escritor = csv.writer(db)
         escritor.writerow(
             [
@@ -38,8 +37,8 @@ def crear_alumno(id, nombre, nota1="", nota2="", nota3=""):
         )
 
 
-def leer_alumnos():
-    with open("Estudiantes.csv", "r") as db:
+def leer_alumnos(base_de_datos):
+    with open(base_de_datos, "r") as db:
         lector = csv.reader(db, delimiter=",")
         for fila in lector:
             for elemento in fila:
@@ -47,8 +46,8 @@ def leer_alumnos():
             print(" ")
 
 
-def leer_alumno(id):
-    with open("Estudiantes.csv", "r") as db:
+def leer_alumno(base_de_datos, id):
+    with open(base_de_datos, "r") as db:
         lector = csv.reader(db, delimiter=",")
         for fila in lector:
             if fila[0] == str(id):
@@ -56,10 +55,10 @@ def leer_alumno(id):
                     print(elemento, end=" ")
 
 
-def actualizar_nota_alumno(id, numero_nota, valor_nota):
+def actualizar_nota_alumno(base_de_datos, id, numero_nota, valor_nota):
     actualizacion = []
 
-    with open("Estudiantes.csv", "r") as db:
+    with open(base_de_datos, "r") as db:
         lector = csv.reader(db, delimiter=",")
         actualizacion = list(lector)
 
@@ -67,15 +66,15 @@ def actualizar_nota_alumno(id, numero_nota, valor_nota):
         if fila[0] == str(id):
             fila[numero_nota + 1] = str(valor_nota)
 
-    with open("Estudiantes.csv", "w") as db:
+    with open(base_de_datos, "w") as db:
         escritor = csv.writer(db)
         escritor.writerows(actualizacion)
 
 
-def actualizar_nombre_alumno(id, nuevo_nombre):
+def actualizar_nombre_alumno(base_de_datos, id, nuevo_nombre):
     actualizacion = []
 
-    with open("Estudiantes.csv", "r") as db:
+    with open(base_de_datos, "r") as db:
         lector = csv.reader(db, delimiter=",")
         actualizacion = list(lector)
 
@@ -83,21 +82,21 @@ def actualizar_nombre_alumno(id, nuevo_nombre):
         if fila[0] == str(id):
             fila[1] = nuevo_nombre
 
-    with open("Estudiantes.csv", "w") as db:
+    with open(base_de_datos, "w") as db:
         escritor = csv.writer(db)
         escritor.writerows(actualizacion)
 
 
-def borrar_alumno(id):
+def borrar_alumno(base_de_datos, id):
     actualizacion = []
 
-    with open("Estudiantes.csv", "r") as db:
+    with open(base_de_datos, "r") as db:
         lector = csv.reader(db, delimiter=",")
         actualizacion = list(lector)
 
     actualizacion.pop(id - 1)
 
-    with open("Estudiantes.csv", "w") as db:
+    with open(base_de_datos, "w") as db:
         escritor = csv.writer(db)
         escritor.writerows(actualizacion)
 
