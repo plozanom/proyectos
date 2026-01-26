@@ -15,7 +15,3 @@ class Administrador(Empleado):
 
     def informacion(self):
         return f"{super().informacion()}\nDepartamento: {self.departamento}"
-
-
-empleado = Administrador("Pepe", "01", 2000, "HR")
-print(empleado.informacion())
