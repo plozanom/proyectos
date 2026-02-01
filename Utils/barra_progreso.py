@@ -1,12 +1,15 @@
+from time import sleep
+
 from tqdm import tqdm
 
 
 def barra_progreso():
-    bucle = tqdm(total=10000, position=0, leave=False)
+    bucle = tqdm(total=100, position=0, leave=False)
 
-    for i in range(10000):
-        bucle.set_description("Cargando...".format(i))
-        bucle.update(1)
+    for i in range(100):
+        bucle.set_description(f"Cargando... {i}")
+        sleep(0.1)
+        _ = bucle.update(1)
     bucle.close()
 
 
