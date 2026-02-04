@@ -29,10 +29,19 @@ class Aritmetica:
         return self.operando1 * self.operando2
 
     def division(self):
-        return self.operando1 / self.operando2
+        try:
+            return self.operando1 / self.operando2
+        except ZeroDivisionError:
+            return "No se puede dividir entre cero"
 
     def div_exacta(self):
-        return self.operando1 // self.operando2
+        try:
+            return self.operando1 // self.operando2
+        except ZeroDivisionError:
+            return "No se puede dividir entre cero"
 
     def modulo(self):
-        return self.operando1 % self.operando2
+        try:
+            return self.operando1 % self.operando2
+        except ZeroDivisionError:
+            return "No se puede dividir entre cero"
