@@ -1,7 +1,8 @@
 class Libro:
-    def __init__(self, titulo, autor):
+    def __init__(self, titulo, autor, genero):
         self.titulo = titulo
         self.autor = autor
+        self.genero = genero
         self.esta_prestado = False
 
     def mostrar_info(self):
@@ -10,7 +11,7 @@ class Libro:
         else:
             estado = "Disponible"
 
-        return f"Titulo: {self.titulo}\nAutor: {self.autor}\nEstado: {estado}"
+        return f"Titulo: {self.titulo}\nAutor: {self.autor}\nGenero: {self.genero}\nEstado: {estado}"
 
 
 class Usuario:
@@ -29,8 +30,8 @@ class Usuario:
 
 
 class Prestamo(Libro, Usuario):
-    def __init__(self, titulo, autor, nombre, edad, libros_prestados):
-        Libro.__init__(self, titulo, autor)
+    def __init__(self, titulo, autor, genero, nombre, edad, libros_prestados):
+        Libro.__init__(self, titulo, autor, genero)
         Usuario.__init__(self, nombre, edad)
         self.libros_prestados = libros_prestados
 
