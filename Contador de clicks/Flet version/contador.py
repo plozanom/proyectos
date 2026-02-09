@@ -5,21 +5,21 @@ def main(page: ft.Page):
     page.title = "Contador de clicks"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
-    input = ft.TextField(value="0", text_align=ft.TextAlign.RIGHT, width=100)
+    entrada = ft.TextField(value="0", text_align=ft.TextAlign.RIGHT, width=100)
 
     def click_negativo(e):
-        if int(input.value) > 0:
-            input.value = str(int(input.value) - 1)
+        if int(entrada.value) > 0:
+            entrada.value = str(int(entrada.value) - 1)
 
     def click_positivo(e):
-        input.value = str(int(input.value) + 1)
+        entrada.value = str(int(entrada.value) + 1)
 
     page.add(
         ft.Row(
             alignment=ft.MainAxisAlignment.CENTER,
             controls=[
                 ft.IconButton(ft.Icons.REMOVE, on_click=click_negativo),
-                input,
+                entrada,
                 ft.IconButton(ft.Icons.ADD, on_click=click_positivo),
             ],
         )
