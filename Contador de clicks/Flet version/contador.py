@@ -8,7 +8,8 @@ def main(page: ft.Page):
     input = ft.TextField(value="0", text_align=ft.TextAlign.RIGHT, width=100)
 
     def click_negativo(e):
-        input.value = str(int(input.value) - 1)
+        if int(input.value) > 0:
+            input.value = str(int(input.value) - 1)
 
     def click_positivo(e):
         input.value = str(int(input.value) + 1)
