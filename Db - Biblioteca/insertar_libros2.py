@@ -41,3 +41,5 @@ cursor.executemany(
 conexion.commit()
 
 print("Datos insertados con exito!!!!")
+
+conexion.close()
