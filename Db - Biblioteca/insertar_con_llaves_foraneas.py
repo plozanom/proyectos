@@ -8,6 +8,7 @@ cursor.execute("PRAGMA foreign_keys = ON")
 
 # Insertando un autor en la tabla padre (autores)
 cursor.execute("INSERT INTO autores (nombre) VALUES (?)", ("Gabriel García Márquez",))
+# Nota: Agregar el autor Stephen King sin agregar libros para poder hacer una mejor visualización del resultado
 
 # Recuperando el ultimo ID creado
 id_autor = cursor.lastrowid
