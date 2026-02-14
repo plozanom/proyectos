@@ -9,7 +9,8 @@ cursor = conexion.cursor()
 consulta = """
 SELECT libros.titulo, autores.nombre
 FROM libros
-INNER JOIN autores ON libros.autor_id = autores.id"""
+INNER JOIN autores ON libros.autor_id = autores.id
+ORDER BY autores.nombre ASC, obras.titulo ASC"""
 
 cursor.execute(consulta)
 filas = cursor.fetchall()
