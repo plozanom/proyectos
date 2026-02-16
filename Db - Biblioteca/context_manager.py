@@ -1,6 +1,6 @@
 import sqlite3
 
-# El Context Manager es utilizar 'with' para que gestione la conexión, el cierre, el posible commit o rollback de manera segura
+# El Context Manager es utilizar 'with' para que gestione la conexión, el posible commit o rollback de manera segura
 with sqlite3.connect("biblioteca_avanzada.db") as conexion:
     cursor = conexion.cursor()
 
