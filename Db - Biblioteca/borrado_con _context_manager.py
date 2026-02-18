@@ -1,7 +1,7 @@
 import sqlite3
 from contextlib import closing
 
-database = "biblioteca.db"
+database = "biblioteca_avanzada.db"
 
 try:
     with closing(sqlite3.connect(database)) as conexion:
