@@ -53,3 +53,19 @@ def obtener_tareas_criticas(conexion):
         cursor.execute(consulta)
 
         return cursor.fetchall()
+
+
+@estandar_db
+def obtener_todas_las_tareas(conexion):
+    with conexion:
+        cursor = conexion.cursor()
+
+        consulta = """
+        SELECT t.descripcion, t.fecha_limite, p.nombre as proyecto
+        FROM tareas t
+        JOIN proyectos p ON t.proyecto_id = p.id
+        ORDER BY p.nombre ASC t.fecha_limite ASC"""
+
+        cursor.execute(consulta)
+
+        return cursor.fetchall()
