@@ -22,6 +22,7 @@ def inicializar_db(conexion):
                         fecha_limite TEXT NOT NULL,
                         estado INTEGER DEFAULT 0,
                         FOREIGN KEY (proyecto_id) REFERENCES proyectos(id) ON DELETE CASCADE,
+                        CHECK (estado IN (0, 1)),
                         CHECK (length(fecha_limite) <= 10)
                         )""")
 
