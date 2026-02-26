@@ -2,6 +2,19 @@ from inicializadores.conexion import estandar_db
 
 
 @estandar_db
+def obtener_id_proyecto(conexion, nombre):
+    with conexion:
+        cursor = conexion.cursor()
+
+        consulta = "SELECT id FROM proyectos WHERE nombre = ?"
+
+        cursor.execute(consulta, (nombre,))
+        resultado = cursor.fetchone()
+
+        return resultado["id"] if resultado else None
+
+
+@estandar_db
 def obtener_tareas_por_fecha(conexion, fecha):
     with conexion:
         cursor = conexion.cursor()
