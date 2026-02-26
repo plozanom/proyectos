@@ -36,3 +36,19 @@ def insertar_grupo_tareas(conexion, proyecto_id, descripcion_y_fecha):
         cursor.executemany(consulta, lista_valores)
 
     print(f"Se ha hecho el registro de {len(lista_valores)} tareas de manera exitosa")
+
+
+@estandar_db
+def insertar_tarea_por_nombre_proyecto(
+    conexion, nombre_proyecto, descripcion, fecha_limite
+):
+    with conexion:
+        cursor = conexion.cursor()
+
+        consulta = """
+        INSERT INTO tareas (proyecto_id, descripcion, fecha_limite)
+        VALUES ((SELECT id FROM proyectos WHERE nombre = ?), ?, ?)"""
+
+        cursor.execute(consulta, (nombre_proyecto, descripcion, fecha_limite))
+
+        return True
