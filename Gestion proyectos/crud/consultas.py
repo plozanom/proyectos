@@ -99,3 +99,23 @@ def obtener_tareas_de_proyecto(conexion, nombre_proyecto):
         cursor.execute(consulta, (nombre_proyecto,))
 
         return cursor.fetchall()
+
+
+@estandar_db
+def obtener_resumen_proyectos(conexion):
+    with conexion:
+        cursor = conexion.cursor()
+
+        consulta = """
+        SELECT
+            p.nombre
+            COUNT(t.id) as total_tareas,
+            SUM(CASE WHEN t.estado = 0 THEN 1 ELSE 0 END) as pendientes,
+            SUM(CASE WHEN t.estado = 1 THEN 1 ELSE 0 END) as completadas
+        FROM proyectos p
+        LEFT JOIN tareas t ON p.id = t.proyecto_id
+        GROUP BY p.id"""
+
+        cursor.execute(consulta)
+
+        return cursor.fetchall()
