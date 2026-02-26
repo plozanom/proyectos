@@ -2,18 +2,20 @@ from inicializadores.conexion import estandar_db
 
 
 @estandar_db
-def eliminar_proyecto(conexion, proyecto_id):
+def limpiar_proyectos_huerfanos(conexion):
     with conexion:
         cursor = conexion.cursor()
 
-        consulta = "DELETE FROM proyectos WHERE id = ?"
+        consulta = """
+        DELETE FROM proyectos
+        WHERE id NOT IN (SELECT DISTINCT proyecto_id FROM tareas)"""
 
-        cursor.execute(consulta, (proyecto_id,))
+        cursor.execute(consulta)
 
         if cursor.rowcount > 0:
-            print(f"Proyecto {proyecto_id} y sus tareas han sido eliminados.")
+            return True
         else:
-            print(f"No se encontró el proyecto con ID {proyecto_id}.")
+            return False
 
 
 @estandar_db
