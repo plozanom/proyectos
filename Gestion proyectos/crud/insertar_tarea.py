@@ -23,15 +23,12 @@ def insertar_grupo_tareas(conexion, proyecto_id, descripcion_y_fecha):
     Esta función recibe la conexión del decorador (como las otras funciones), un ID del proyecto (que viene de la función insertar_proyecto) y
     una lista de tuplas con la descripción y la fecha_limite [(desc, fecha), ...]
     """
-
-    lista_valores = [(proyecto_id, *tarea) for tarea in descripcion_y_fecha]
-
-    consulta = (
-        "INSERT INTO tareas (proyecto_id, descripcion, fecha_limite) VALUES (?, ?, ?)"
-    )
-
     with conexion:
         cursor = conexion.cursor()
+
+        lista_valores = [(proyecto_id, *tarea) for tarea in descripcion_y_fecha]
+
+        consulta = "INSERT INTO tareas (proyecto_id, descripcion, fecha_limite) VALUES (?, ?, ?)"
 
         cursor.executemany(consulta, lista_valores)
 
@@ -52,3 +49,21 @@ def insertar_tarea_por_nombre_proyecto(
         cursor.execute(consulta, (nombre_proyecto, descripcion, fecha_limite))
 
         return True
+
+
+@estandar_db
+def insertar_grupo_tareas_por_nombre_proyecto(
+    conexion, nombre_proyecto, descripcion_y_fecha
+):
+    with conexion:
+        cursor = conexion.cursor()
+
+        lista_valores = [(nombre_proyecto, *tarea) for tarea in descripcion_y_fecha]
+
+        consulta = """
+        INSERT INTO tareas (proyecto_id, descripcion, fecha_limite)
+        VALUES ((SELECT id FROM proyectos WHERE nombre = ?), ?, ?)"""
+
+        cursor.executemany(consulta, lista_valores)
+
+        return cursor.rowcount > 0
