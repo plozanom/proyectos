@@ -35,3 +35,15 @@ def posponer_fechas_proyecto(conexion, proyecto_id, dias):
             )
         else:
             print(f"No hay tareas pendientes para posponer del proyecto {proyecto_id}.")
+
+
+@estandar_db
+def renombrar_proyecto(conexion, id_proyecto, nuevo_nombre):
+    with conexion:
+        cursor = conexion.cursor()
+
+        consulta = "UPDATE proyectos SET nombre = ? WHERE id = ?"
+
+        cursor.execute(consulta, (nuevo_nombre, id_proyecto))
+
+        return cursor.rowcount > 0
