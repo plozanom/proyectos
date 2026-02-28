@@ -47,3 +47,21 @@ def renombrar_proyecto(conexion, id_proyecto, nuevo_nombre):
         cursor.execute(consulta, (nuevo_nombre, id_proyecto))
 
         return cursor.rowcount > 0
+
+
+@estandar_db
+def actualizar_tarea_manera_segura(
+    conexion, tarea_id, nueva_desc=None, nueva_fecha=None
+):
+    with conexion:
+        cursor = conexion.cursor()
+
+        consulta = """
+        UPDATE tareas
+        SET descripcion = COALESCE(?, descripcion)
+            fecha_limite = COALESCE(?, fecha_limite)
+        WHERE id = ? AND estado = 0"""
+
+        cursor.execute(consulta, (nueva_desc, nueva_fecha, tarea_id))
+
+        return cursor.rowcount > 0
