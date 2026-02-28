@@ -10,11 +10,7 @@ def marcar_tarea_completada(conexion, tarea_id, nuevo_estado):
 
         cursor.execute(consulta, (nuevo_estado, tarea_id))
 
-        # Verificamos si realmente se actualizó algo
-        if cursor.rowcount > 0:
-            print(f"Tarea con ID {tarea_id} marcada como completada.")
-        else:
-            print(f"No se encontró ninguna tarea con el ID {tarea_id}.")
+        return cursor.rowcount > 0
 
 
 @estandar_db
@@ -29,12 +25,7 @@ def posponer_fechas_proyecto(conexion, proyecto_id, dias):
 
         cursor.execute(consulta, (modificador, proyecto_id))
 
-        if cursor.rowcount > 0:
-            print(
-                f"Se han pospuesto {cursor.rowcount} tareas del proyecto {proyecto_id} en {dias} dias."
-            )
-        else:
-            print(f"No hay tareas pendientes para posponer del proyecto {proyecto_id}.")
+        return cursor.rowcount > 0
 
 
 @estandar_db

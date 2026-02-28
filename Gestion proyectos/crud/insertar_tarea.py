@@ -14,7 +14,7 @@ def insertar_tarea(conexion, proyecto_id, descripcion, fecha):
             (proyecto_id, descripcion, fecha),
         )
 
-        print("Tarea registrada")
+        return cursor.rowcount > 0
 
 
 @estandar_db
@@ -32,7 +32,7 @@ def insertar_grupo_tareas(conexion, proyecto_id, descripcion_y_fecha):
 
         cursor.executemany(consulta, lista_valores)
 
-    print(f"Se ha hecho el registro de {len(lista_valores)} tareas de manera exitosa")
+        return cursor.rowcount > 0
 
 
 @estandar_db
@@ -48,7 +48,7 @@ def insertar_tarea_por_nombre_proyecto(
 
         cursor.execute(consulta, (nombre_proyecto, descripcion, fecha_limite))
 
-        return True
+        return cursor.rowcount > 0
 
 
 @estandar_db

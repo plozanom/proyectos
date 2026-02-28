@@ -12,10 +12,7 @@ def limpiar_proyectos_huerfanos(conexion):
 
         cursor.execute(consulta)
 
-        if cursor.rowcount > 0:
-            return True
-        else:
-            return False
+        return cursor.rowcount > 0
 
 
 @estandar_db
@@ -32,9 +29,4 @@ def limpiar_tareas_antiguas(conexion, dias_antiguedad=30):
 
         cursor.execute(consulta, (modificador,))
 
-        if cursor.rowcount > 0:
-            print(f"Se hizo la limpieza de {cursor.rowcount} tareas antiguas.")
-        else:
-            print(
-                f"No se encontraron tareas con más de {dias_antiguedad} dias de antiguedad."
-            )
+        return cursor.rowcount > 0

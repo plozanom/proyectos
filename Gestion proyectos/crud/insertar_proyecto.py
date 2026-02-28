@@ -9,7 +9,17 @@ def insertar_proyecto(conexion, nombre_proyecto):
         # Insertando el proyecto
         cursor.execute("INSERT INTO proyectos (nombre) VALUES (?)", (nombre_proyecto,))
 
-        # Recuperando el id del proyecto
-        proyecto_id = cursor.lastrowid
+        return cursor.rowcount > 0
 
-        return proyecto_id
+
+@estandar_db
+def insertar_proyectos_en_masa(conexion, lista_nombres):
+    with conexion:
+        cursor = conexion.cursor()
+
+        consulta = "INSERT OR IGNORE INTO proyectos (nombre) VALUES (?)"
+        nombres_tuplas = [(n,) for n in lista_nombres]
+
+        cursor.executemany(consulta, nombres_tuplas)
+
+        return cursor.rowcount > 0
